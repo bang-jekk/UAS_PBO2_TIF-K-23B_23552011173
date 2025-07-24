@@ -27,7 +27,9 @@
 
 •	Melihat laporan transaksi pembayaran
 
-Semuanya dijalankan di run lewat cmd pakai Javafx agar tampilan GUI nya muncul ke trigger, dan datanya disimpan di MySQL.
+•	Fitur Login dan Registrasi akun
+
+Sistem ini memiliki antarmuka GUI (Graphical User Interface) berbasis JavaFX, dan seluruh data disimpan di dalam database MySQL. Program dijalankan melalui Command Prompt (CMD) dengan perintah java agar tampilan GUI dapat tampil dan interaktif.
 </p>
 
 ## Penjelasan 4 Pilar OOP dalam Studi Kasus
@@ -36,76 +38,95 @@ Semuanya dijalankan di run lewat cmd pakai Javafx agar tampilan GUI nya muncul k
 <p>Contoh codenya : </p>
 
 ```
-public abstract class Sivitas {
+public class Civitas {
     protected String nama;
     protected String nim;
-    public abstract void tampilkanInfo();
-}
-public class Mahasiswa extends Sivitas {
-    private int id;
-    
-    public Mahasiswa(int id, String nama, String nim) {
-        this.id = id;
+
+    public Civitas(String nama, String nim) {
         this.nama = nama;
         this.nim = nim;
     }
 
-    @Override
     public void tampilkanInfo() {
-        System.out.println("Mahasiswa: " + nama + " (" + nim + ")");
+        System.out.println("Nama: " + nama);
+        System.out.println("NIM: " + nim);
     }
+}
+
+public class Mahasiswa extends Civitas {
+    public Mahasiswa(String nama, String nim) {
+        super(nama, nim);
+    }
+}
+
+public class Dosen extends Civitas {
+    public Dosen(String nama, String nip) {
+        super(nama, nip);
+    }
+}
+
 ```
-<p>Jadi penjelasannya kita bikin class umum namanya Sivitas, isinya data kayak nama dan nim. Terus ada class Mahasiswa yang neruskan (inherit) dari Sivitas.
-Jadi, Mahasiswa itu anaknya Sivitas. Dia nurun semua atribut dari ortunya.</p>
+<p>Jadi penjelasannya Kelas Mahasiswa dan Dosen mewarisi dari kelas Civitas, sehingga bisa menggunakan properti atau metode umum dari induknya.</p>
 
 ### 2. Encapsulation
 <p>Contoh codenya : </p>
 
 ```
-public class JadwalKuliah {
-    private String hari;
-    private String mataKuliah;
+public class DataAkademik {
+    private StringProperty nama;
+    private StringProperty nilai;
+    private StringProperty jadwal;
 
-    public String getHari() {
-        return hari;
+    public DataAkademik(String nama, String nilai, String jadwal) {
+        this.nama = new SimpleStringProperty(nama);
+        this.nilai = new SimpleStringProperty(nilai);
+        this.jadwal = new SimpleStringProperty(jadwal);
     }
 
-    public void setHari(String hari) {
-        this.hari = hari;
+    public String getNilai() {
+        return nilai.get();
     }
 
-    public String getMataKuliah() {
-        return mataKuliah;
-    }
-
-    public void setMataKuliah(String mataKuliah) {
-        this.mataKuliah = mataKuliah;
+    public void setNilai(String nilai) {
+        this.nilai.set(nilai);
     }
 }
+
 ```
-<p>Contohnya di data jadwal atau nilai, kita sembunyikan atribut-atributnya (dibuat private), trus kita aksesnya lewat getter & setter.
-Tujuannya biar data tida bisa diubah-ubah sembarangan. Harus lewat "pintu resmi" (getter/setter).</p>
+<p>Atribut nama, nilai, dan jadwal disembunyikan dan hanya bisa diakses lewat metode getter dan setter.</p>
 
 ### 3. Polymorphism
 <p>Contoh codenya : </p>
 
 ```
-public abstract class Pembayaran {
-    public abstract double hitungTagihan();
+public class Pembayaran {
+    protected String nama;
+
+    public Pembayaran(String nama) {
+        this.nama = nama;
+    }
+
+    public double hitungTagihan() {
+        return 0;
+    }
 }
 
-public class TagihanKuliah extends Pembayaran {
-    private double total;
-    private double diskon;
+public class PembayaranUKT extends Pembayaran {
+    private double tarif;
+
+    public PembayaranUKT(String nama, double tarif) {
+        super(nama);
+        this.tarif = tarif;
+    }
 
     @Override
     public double hitungTagihan() {
-        return total - diskon;
+        return tarif;
     }
 }
+
 ```
-<p>Kita punya method hitungTagihan() di class Pembayaran. Nah, setiap class turunannya bisa punya cara hitung yang berbeda-beda.
-Jadi methodnya sama, tapi cara kerjanya beda jugga. Fleksibel pisan buat kondisi yang beda-beda.</p>
+<p>Metode hitungTagihan() didefinisikan di kelas Pembayaran, lalu di-override oleh kelas turunan seperti PembayaranUKT.</p>
 
 ### 4. Abstract
 <p>Contoh codenya : </p>
@@ -113,13 +134,26 @@ Jadi methodnya sama, tapi cara kerjanya beda jugga. Fleksibel pisan buat kondisi
 ```
 public abstract class Sivitas {
     protected String nama;
-    protected String nim;
 
-    public abstract void tampilkanInfo();
+    public Sivitas(String nama) {
+        this.nama = nama;
+    }
+
+    public abstract void tampilkanPeran();
+}
+
+public class Mahasiswa extends Sivitas {
+    public Mahasiswa(String nama) {
+        super(nama);
+    }
+
+    @Override
+    public void tampilkanPeran() {
+        System.out.println(nama + " adalah seorang Mahasiswa.");
+    }
 }
 ```
-<p>Sivitas itu kita bikin sebagai abstract class. Artinya dia ga bisa langsung dipakai, tapi harus diturunin dulu.
-Kayak blueprint. Cuma kerangka dasarnya ajah, baru bisa dipakai kalau diwariskan sama class lain kayak Mahasiswa.</p>
+<p>Sivitas adalah kelas abstrak yang tidak bisa dibuat objeknya secara langsung, tetapi memberikan kerangka bagi Mahasiswa dan Dosen.</p>
 
 ## Demo Proyek
 <ul>
