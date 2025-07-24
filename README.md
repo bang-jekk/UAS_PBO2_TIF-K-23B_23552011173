@@ -128,7 +128,7 @@ public class PembayaranUKT extends Pembayaran {
 ```
 <p>Metode hitungTagihan() didefinisikan di kelas Pembayaran, lalu di-override oleh kelas turunan seperti PembayaranUKT.</p>
 
-### 4. Abstract
+### 4. Abstract Class
 <p>Contoh codenya : </p>
 
 ```
