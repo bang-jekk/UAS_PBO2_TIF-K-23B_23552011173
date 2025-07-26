@@ -158,5 +158,5 @@ public class Mahasiswa extends Sivitas {
 ## Demo Proyek
 <ul>
   <li>Github: <a href="https://github.com/bang-jekk/UAS_PBO2_TIF-K-23B_23552011173">Github</a></li>
-  <li>Youtube: <a href="https://youtu.be/OfNJSry8BSs">Youtube</a></li>
+  <li>Youtube: <a href="https://youtu.be/B3ZI45CzkFM">Youtube</a></li>
 </ul>
